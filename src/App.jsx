@@ -6,17 +6,18 @@ import Footer from './components/Footer';
 import Navbar from './components/NavBar';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => (
   <div className="flex flex-col min-h-screen">
     <Navbar />
     <main className="flex-grow flex flex-col">
-    <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/game" element={<Game />} />
+        <Route path="/game" element={<PrivateRoute><Game /></PrivateRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path='/lobby' element={<Lobby />} />
+        <Route path="/lobby" element={<PrivateRoute><Lobby /></PrivateRoute>} />
       </Routes>
     </main>
     <Footer />

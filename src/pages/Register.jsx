@@ -3,27 +3,38 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/register', {
-        username,
+      const response = await axios.post('http://localhost:3000/api/auth/register', {
+        name,
         email,
         password
       });
       console.log('Registro exitoso:', response.data);
-      // Guardar el token en localStorage
       localStorage.setItem('token', response.data.token);
-      // Redirigir al usuario a la página de inicio
-      navigate('/login');
+
+      setMessageType('success');
+      setMessage('Usuario registrado exitosamente. Bienvenido al Bingo del Gran Buda!');
+      setTimeout(() => {
+        setMessage('');
+        navigate('/lobby');
+      }, 3000);
+
     } catch (error) {
       console.error('Error registrando usuario:', error);
-      // Manejar el error, como mostrar un mensaje de error al usuario
+      setMessageType('error');
+      setMessage('Error al registrar usuario. Intentelo otra vez');
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
     }
   }
 
@@ -43,8 +54,8 @@ const Register = () => {
             id="username"
             className="mt-1 block w-full px-4 py-2 border rounded shadow-sm focus:ring focus:ring-blue-500"
             placeholder="Nombre de usuario"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -89,6 +100,16 @@ const Register = () => {
           Registrarse
         </button>
       </form>
+      {message && (
+        <div
+          className={`mt-4 px-4 py-2 rounded shadow ${messageType === "success"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-red-100 text-red-700"
+            }`}
+        >
+          {message}
+        </div>
+      )}
       <p className="mt-4">
         ¿Ya tienes una cuenta? <Link to="/login" className="text-blue-500 hover:underline">Inicia sesión</Link>
       </p>
