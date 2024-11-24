@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import Navbar from './components/NavBar';
 import Register from './pages/Register';
+import Lobby from './pages/Lobby';
 
 const App = () => (
   <div className="flex flex-col min-h-screen">
@@ -15,6 +16,7 @@ const App = () => (
         <Route path="/game" element={<Game />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path='/lobby' element={<Lobby />} />
       </Routes>
     </main>
     <Footer />
