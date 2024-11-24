@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BeatLoader } from "react-spinners";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [modalMessage, setModalMessage] = useState(""); // Mensaje del modal
-  const [isModalVisible, setIsModalVisible] = useState(false); // Mostrar/ocultar modal
-  const [errorMessage, setErrorMessage] = useState(""); // Mensaje de error en caso de fallo
+  const [modalMessage, setModalMessage] = useState(""); 
+  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState(""); 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Mostrar el modal mientras se procesa
       setModalMessage("Iniciando sesión...");
       setIsModalVisible(true);
 
@@ -24,23 +24,19 @@ const Login = () => {
 
       console.log("Inicio de sesión exitoso:", response.data);
 
-      // Guardar el token en localStorage
       localStorage.setItem("token", response.data.token);
 
-      // Mantener el modal visible durante 2 segundos
       setTimeout(() => {
-        setIsModalVisible(false); // Ocultar el modal
-        navigate("/lobby"); // Redirigir al lobby
-      }, 2000);  // 2 segundos
+        setIsModalVisible(false); 
+        navigate("/lobby"); 
+      }, 1000); 
 
     } catch (error) {
       console.error("Error iniciando sesión:", error.response?.data || error.message);
 
-      // Mostrar mensaje de error
       setIsModalVisible(false);
       setErrorMessage("Error al iniciar sesión. Verifica tus credenciales.");
 
-      // Limpiar mensaje de error después de 3 segundos
       setTimeout(() => setErrorMessage(""), 3000);
     }
   };
@@ -108,11 +104,12 @@ const Login = () => {
         </Link>
       </p>
 
-      {/* Modal superpuesto */}
+      {/* Modal con BeatLoader */}
       {isModalVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-blue-100 p-6 rounded shadow-md text-center">
-            <p className="text-lg font-semibold text-blue-700">{modalMessage}</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded shadow-lg flex flex-col items-center">
+            <BeatLoader color="#36a1d7" loading={true} size={15} />
+            <p className="text-lg font-medium">{modalMessage}</p>
           </div>
         </div>
       )}

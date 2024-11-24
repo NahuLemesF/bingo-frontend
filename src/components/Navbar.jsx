@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Navbar = () => {
     // Mostrar mensaje de cerrando sesión
     setLogoutMessage(true);
     localStorage.removeItem('token');
-    
+
     // Esperar 2 segundos antes de redirigir al Home
     setTimeout(() => {
       setLogoutMessage(false);
@@ -38,8 +39,9 @@ const Navbar = () => {
       {/* Mostrar mensaje modal en el centro del body */}
       {logoutMessage && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-blue-100 p-6 rounded shadow-md text-center">
-            <p className="text-lg font-semibold text-blue-700">Cerrando sesión...</p>
+          <div className="bg-white p-6 rounded shadow-lg flex flex-col items-center gap-1">
+            <BeatLoader color="#36a1d7" loading={true} size={15} />
+            <p className="text-lg font-medium">Cerrando sesión...</p>
           </div>
         </div>
       )}
